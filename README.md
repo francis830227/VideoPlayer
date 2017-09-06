@@ -1,3 +1,1 @@
-# AVPlayer
-# Video-Player
 # VideoPlayer
