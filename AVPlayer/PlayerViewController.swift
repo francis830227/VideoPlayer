@@ -20,6 +20,8 @@ class PlayerViewController: UIViewController, UISearchResultsUpdating, UISearchB
 
     let bottomView = UIView()
 
+    let button = UIButton(frame: CGRect(x: 0, y: 630, width: 100, height: 50))
+    
     static let assetKeysRequiredToPlay = [
         "playable",
         "hasProtectedContent"
@@ -50,20 +52,30 @@ class PlayerViewController: UIViewController, UISearchResultsUpdating, UISearchB
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchController.searchBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 60)
+        searchController.searchBar.frame = CGRect(x: 0, y: 20, width: self.view.frame.size.width, height: 44)
         
         searchController.searchBar.placeholder = "Enter URL of video"
+        searchController.searchBar.backgroundColor = UIColor(red: 8/255.0, green: 21/255.0, blue: 35/255.0, alpha: 1)
+        searchController.searchBar.barTintColor = UIColor(red: 8/255.0, green: 21/255.0, blue: 35/255.0, alpha: 1)
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = true
+        searchController.definesPresentationContext = true
         searchController.searchBar.sizeToFit()
-        self.view.addSubview(searchController.searchBar)
-                setUpBottomView()
+        setUpBottomView()
         
-        playerView.frame = CGRect(x: 20, y: 40, width: 500, height: 500)
-        playerView.backgroundColor = .red
+        playerView.translatesAutoresizingMaskIntoConstraints = false
+        playerView.backgroundColor = UIColor(red: 8/255.0, green: 21/255.0, blue: 35/255.0, alpha: 1)
+        playerView.frame = CGRect(x: 0, y: 64, width: self.view.frame.size.width, height: self.view.frame.size.height)
         self.view.addSubview(playerView)
+        self.view.addSubview(searchController.searchBar)
+        
+        button.backgroundColor = .black
+        button.setTitle("Play", for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        
+        self.view.addSubview(button)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -71,8 +83,7 @@ class PlayerViewController: UIViewController, UISearchResultsUpdating, UISearchB
         
         addObserver(self, forKeyPath: #keyPath(PlayerViewController.player.currentItem.status), options: [.new, .initial], context: &playerViewControllerKVOContext)
         playerView.playerLayer.player = player
-        
-        
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -83,18 +94,26 @@ class PlayerViewController: UIViewController, UISearchResultsUpdating, UISearchB
         removeObserver(self, forKeyPath: #keyPath(PlayerViewController.player.currentItem.status), context: &playerViewControllerKVOContext)
     }
 
+    func buttonAction() {
+        
+        if player.rate != 1.0 {
+            button.setTitle("Play", for: .normal)
+
+            player.play()
+        }
+        else {
+            player.pause()
+            button.setTitle("Pause", for: .normal)
+        }
+        
+    }
     
     func setUpBottomView() {
-        
-        self.view.addSubview(bottomView)
 
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bottomView.frame = CGRect(x: 0, y: 623, width: self.view.frame.width, height: 44)
         bottomView.frame.size.height = 44.0
-        bottomView.backgroundColor = .black
-
+        bottomView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        self.view.addSubview(bottomView)
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {

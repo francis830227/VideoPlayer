@@ -13,15 +13,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        UIApplication.shared.statusBarStyle = .lightContent
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
         let homeViewController = PlayerViewController()
         
-        homeViewController.view.backgroundColor = .white
+        homeViewController.view.backgroundColor = UIColor(red: 8/255.0, green: 21/255.0, blue: 35/255.0, alpha: 1)
         
         window!.rootViewController = homeViewController
         
