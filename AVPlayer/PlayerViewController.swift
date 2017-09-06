@@ -14,8 +14,13 @@ class PlayerViewController: UIViewController, UISearchResultsUpdating, UISearchB
 
     let searchController = UISearchController(searchResultsController: nil)
 
+    let bottomView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
         
         searchController.searchBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 60)
         
@@ -26,9 +31,24 @@ class PlayerViewController: UIViewController, UISearchResultsUpdating, UISearchB
         searchController.hidesNavigationBarDuringPresentation = true
         searchController.searchBar.sizeToFit()
         self.view.addSubview(searchController.searchBar)
+                setUpBottomView()
+        
         
     }
 
+    func setUpBottomView() {
+        
+        self.view.addSubview(bottomView)
+
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bottomView.frame.size.height = 44.0
+        bottomView.backgroundColor = .black
+        
+    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
 
