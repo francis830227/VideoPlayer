@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let homeViewController = UIViewController()
+        let homeViewController = PlayerViewController()
         
-        homeViewController.view.backgroundColor = UIColor.red
+        homeViewController.view.backgroundColor = .white
         
         window!.rootViewController = homeViewController
         
